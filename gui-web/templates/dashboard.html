@@ -36,28 +36,28 @@
             <form id="wallet-form" class="edit-form">
                 <h3>Edit Wallet</h3>
                 <div class="form-row">
-                    <label>Gold:</label>
-                    <input type="number" name="gold" min="0" max="999999">
+                    <label for="wallet-gold">Gold:</label>
+                    <input type="number" id="wallet-gold" name="gold" min="0" max="999999">
                 </div>
                 <div class="form-row">
-                    <label>Bust:</label>
-                    <input type="number" name="bust" min="0" max="9999">
+                    <label for="wallet-bust">Bust:</label>
+                    <input type="number" id="wallet-bust" name="bust" min="0" max="9999">
                 </div>
                 <div class="form-row">
-                    <label>Portrait:</label>
-                    <input type="number" name="portrait" min="0" max="9999">
+                    <label for="wallet-portrait">Portrait:</label>
+                    <input type="number" id="wallet-portrait" name="portrait" min="0" max="9999">
                 </div>
                 <div class="form-row">
-                    <label>Deed:</label>
-                    <input type="number" name="deed" min="0" max="9999">
+                    <label for="wallet-deed">Deed:</label>
+                    <input type="number" id="wallet-deed" name="deed" min="0" max="9999">
                 </div>
                 <div class="form-row">
-                    <label>Crest:</label>
-                    <input type="number" name="crest" min="0" max="9999">
+                    <label for="wallet-crest">Crest:</label>
+                    <input type="number" id="wallet-crest" name="crest" min="0" max="9999">
                 </div>
                 <div class="form-actions">
                     <label class="checkbox">
-                        <input type="checkbox" name="dry_run" checked> Dry Run
+                        <input type="checkbox" id="wallet-dry-run" name="dry_run" checked> Dry Run
                     </label>
                     <button type="submit" class="btn btn-primary">Apply Changes</button>
                 </div>
@@ -84,16 +84,16 @@
             <form id="game-form" class="edit-form">
                 <h3>Edit Game Flags</h3>
                 <div class="form-row">
-                    <label>In Raid:</label>
-                    <select name="inraid">
+                    <label for="game-inraid">In Raid:</label>
+                    <select id="game-inraid" name="inraid">
                         <option value="">-- No Change --</option>
                         <option value="0">No (0)</option>
                         <option value="1">Yes (1)</option>
                     </select>
                 </div>
                 <div class="form-row">
-                    <label>DD Options Altered:</label>
-                    <select name="dd_options_altered">
+                    <label for="game-dd-options">DD Options Altered:</label>
+                    <select id="game-dd-options" name="dd_options_altered">
                         <option value="">-- No Change --</option>
                         <option value="0">No (0)</option>
                         <option value="1">Yes (1)</option>
@@ -101,7 +101,7 @@
                 </div>
                 <div class="form-actions">
                     <label class="checkbox">
-                        <input type="checkbox" name="dry_run" checked> Dry Run
+                        <input type="checkbox" id="game-dry-run" name="dry_run" checked> Dry Run
                     </label>
                     <button type="submit" class="btn btn-primary">Apply Changes</button>
                 </div>
@@ -116,8 +116,8 @@
             <form id="raid-form" class="edit-form">
                 <h3>Edit Raid Flags</h3>
                 <div class="form-row">
-                    <label>Teleported:</label>
-                    <select name="teleported">
+                    <label for="raid-teleported">Teleported:</label>
+                    <select id="raid-teleported" name="teleported">
                         <option value="">-- No Change --</option>
                         <option value="0">No (0)</option>
                         <option value="1">Yes (1)</option>
@@ -125,10 +125,10 @@
                 </div>
                 <div class="form-actions">
                     <label class="checkbox">
-                        <input type="checkbox" name="dry_run" checked> Dry Run
+                        <input type="checkbox" id="raid-dry-run" name="dry_run" checked> Dry Run
                     </label>
                     <label class="checkbox">
-                        <input type="checkbox" name="allow_inbattle"> Allow In-Battle
+                        <input type="checkbox" id="raid-allow-inbattle" name="allow_inbattle"> Allow In-Battle
                     </label>
                     <button type="submit" class="btn btn-primary">Apply Changes</button>
                 </div>

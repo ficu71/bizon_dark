@@ -309,6 +309,16 @@ header h1 {
     border-top: 1px solid var(--border);
 }
 
+.hero-result-container {
+    margin-top: 15px;
+}
+
+.hero-result-container ul {
+    list-style: none;
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
 /* Tables */
 table {
     width: 100%;
