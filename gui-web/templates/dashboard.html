@@ -13,145 +13,145 @@
             <p class="subtitle">Darkest Dungeon Save Editor</p>
         </header>
 
-        <nav class="tabs">
-            <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
-            <button class="tab-btn" data-tab="wallet">💰 Wallet</button>
-            <button class="tab-btn" data-tab="heroes">⚔️ Heroes</button>
-            <button class="tab-btn" data-tab="upgrades">🏗️ Upgrades</button>
-            <button class="tab-btn" data-tab="game">🎲 Game</button>
-            <button class="tab-btn" data-tab="raid">🏰 Raid</button>
-            <button class="tab-btn" data-tab="backup">💾 Backup</button>
+        <nav class="tabs" role="tablist">
+            <button class="tab-btn active" data-tab="dashboard" role="tab" aria-selected="true" aria-controls="dashboard-panel">Panel Główny</button>
+            <button class="tab-btn" data-tab="wallet" role="tab" aria-selected="false" aria-controls="wallet-panel">💰 Trzos</button>
+            <button class="tab-btn" data-tab="heroes" role="tab" aria-selected="false" aria-controls="heroes-panel">⚔️ Bohaterowie</button>
+            <button class="tab-btn" data-tab="upgrades" role="tab" aria-selected="false" aria-controls="upgrades-panel">🏗️ Ulepszenia</button>
+            <button class="tab-btn" data-tab="game" role="tab" aria-selected="false" aria-controls="game-panel">🎲 Stan Gry</button>
+            <button class="tab-btn" data-tab="raid" role="tab" aria-selected="false" aria-controls="raid-panel">🏰 Ekspedycja</button>
+            <button class="tab-btn" data-tab="backup" role="tab" aria-selected="false" aria-controls="backup-panel">💾 Kopia Zapasowa</button>
         </nav>
 
         <!-- Dashboard Tab -->
-        <div id="dashboard" class="tab-content active">
-            <h2>Dashboard</h2>
-            <div id="profile-status" class="loading">Loading...</div>
+        <div id="dashboard" class="tab-content active" id="dashboard-panel" role="tabpanel">
+            <h2>Panel Główny</h2>
+            <div id="profile-status" class="loading">Wczytywanie...</div>
         </div>
 
         <!-- Wallet Tab -->
-        <div id="wallet" class="tab-content">
-            <h2>💰 Wallet</h2>
-            <div id="wallet-content" class="loading">Loading...</div>
+        <div id="wallet" class="tab-content" id="wallet-panel" role="tabpanel">
+            <h2>💰 Trzos</h2>
+            <div id="wallet-content" class="loading">Wczytywanie...</div>
             <form id="wallet-form" class="edit-form">
-                <h3>Edit Wallet</h3>
+                <h3>Edytuj Trzos</h3>
                 <div class="form-row">
-                    <label for="wallet-gold">Gold:</label>
+                    <label for="wallet-gold">Złoto:</label>
                     <input type="number" id="wallet-gold" name="gold" min="0" max="999999">
                 </div>
                 <div class="form-row">
-                    <label for="wallet-bust">Bust:</label>
+                    <label for="wallet-bust">Popiersia:</label>
                     <input type="number" id="wallet-bust" name="bust" min="0" max="9999">
                 </div>
                 <div class="form-row">
-                    <label for="wallet-portrait">Portrait:</label>
+                    <label for="wallet-portrait">Portrety:</label>
                     <input type="number" id="wallet-portrait" name="portrait" min="0" max="9999">
                 </div>
                 <div class="form-row">
-                    <label for="wallet-deed">Deed:</label>
+                    <label for="wallet-deed">Akty Nadania:</label>
                     <input type="number" id="wallet-deed" name="deed" min="0" max="9999">
                 </div>
                 <div class="form-row">
-                    <label for="wallet-crest">Crest:</label>
+                    <label for="wallet-crest">Herby:</label>
                     <input type="number" id="wallet-crest" name="crest" min="0" max="9999">
                 </div>
                 <div class="form-actions">
                     <label class="checkbox">
-                        <input type="checkbox" id="wallet-dry-run" name="dry_run" checked> Dry Run
+                        <input type="checkbox" id="wallet-dry-run" name="dry_run" checked> Symulacja (Dry Run)
                     </label>
-                    <button type="submit" class="btn btn-primary">Apply Changes</button>
+                    <button type="submit" class="btn btn-primary" aria-label="Zastosuj zmiany w portfelu">Zastosuj Zmiany</button>
                 </div>
             </form>
             <div id="wallet-result"></div>
         </div>
 
         <!-- Heroes Tab -->
-        <div id="heroes" class="tab-content">
-            <h2>⚔️ Heroes</h2>
-            <div id="heroes-content" class="loading">Loading...</div>
+        <div id="heroes" class="tab-content" id="heroes-panel" role="tabpanel">
+            <h2>⚔️ Bohaterowie</h2>
+            <div id="heroes-content" class="loading">Wczytywanie...</div>
         </div>
 
         <!-- Upgrades Tab -->
-        <div id="upgrades" class="tab-content">
-            <h2>🏗️ Upgrades</h2>
-            <div id="upgrades-content" class="loading">Loading...</div>
+        <div id="upgrades" class="tab-content" id="upgrades-panel" role="tabpanel">
+            <h2>🏗️ Ulepszenia Osady</h2>
+            <div id="upgrades-content" class="loading">Wczytywanie...</div>
         </div>
 
         <!-- Game Tab -->
-        <div id="game" class="tab-content">
-            <h2>🎲 Game State</h2>
-            <div id="game-content" class="loading">Loading...</div>
+        <div id="game" class="tab-content" id="game-panel" role="tabpanel">
+            <h2>🎲 Stan Gry</h2>
+            <div id="game-content" class="loading">Wczytywanie...</div>
             <form id="game-form" class="edit-form">
-                <h3>Edit Game Flags</h3>
+                <h3>Edytuj Flagi Gry</h3>
                 <div class="form-row">
-                    <label for="game-inraid">In Raid:</label>
+                    <label for="game-inraid">W Ekspedycji:</label>
                     <select id="game-inraid" name="inraid">
-                        <option value="">-- No Change --</option>
-                        <option value="0">No (0)</option>
-                        <option value="1">Yes (1)</option>
+                        <option value="">-- Bez zmian --</option>
+                        <option value="0">Nie (0)</option>
+                        <option value="1">Tak (1)</option>
                     </select>
                 </div>
                 <div class="form-row">
-                    <label for="game-dd-options">DD Options Altered:</label>
+                    <label for="game-dd-options">Zmienione Opcje DD:</label>
                     <select id="game-dd-options" name="dd_options_altered">
-                        <option value="">-- No Change --</option>
-                        <option value="0">No (0)</option>
-                        <option value="1">Yes (1)</option>
+                        <option value="">-- Bez zmian --</option>
+                        <option value="0">Nie (0)</option>
+                        <option value="1">Tak (1)</option>
                     </select>
                 </div>
                 <div class="form-actions">
                     <label class="checkbox">
-                        <input type="checkbox" id="game-dry-run" name="dry_run" checked> Dry Run
+                        <input type="checkbox" id="game-dry-run" name="dry_run" checked> Symulacja (Dry Run)
                     </label>
-                    <button type="submit" class="btn btn-primary">Apply Changes</button>
+                    <button type="submit" class="btn btn-primary" aria-label="Zastosuj zmiany w flagach gry">Zastosuj Zmiany</button>
                 </div>
             </form>
             <div id="game-result"></div>
         </div>
 
         <!-- Raid Tab -->
-        <div id="raid" class="tab-content">
-            <h2>🏰 Raid State</h2>
-            <div id="raid-content" class="loading">Loading...</div>
+        <div id="raid" class="tab-content" id="raid-panel" role="tabpanel">
+            <h2>🏰 Stan Ekspedycji</h2>
+            <div id="raid-content" class="loading">Wczytywanie...</div>
             <form id="raid-form" class="edit-form">
-                <h3>Edit Raid Flags</h3>
+                <h3>Edytuj Flagi Ekspedycji</h3>
                 <div class="form-row">
-                    <label for="raid-teleported">Teleported:</label>
+                    <label for="raid-teleported">Przeteleportowany:</label>
                     <select id="raid-teleported" name="teleported">
-                        <option value="">-- No Change --</option>
-                        <option value="0">No (0)</option>
-                        <option value="1">Yes (1)</option>
+                        <option value="">-- Bez zmian --</option>
+                        <option value="0">Nie (0)</option>
+                        <option value="1">Tak (1)</option>
                     </select>
                 </div>
                 <div class="form-actions">
                     <label class="checkbox">
-                        <input type="checkbox" id="raid-dry-run" name="dry_run" checked> Dry Run
+                        <input type="checkbox" id="raid-dry-run" name="dry_run" checked> Symulacja (Dry Run)
                     </label>
                     <label class="checkbox">
-                        <input type="checkbox" id="raid-allow-inbattle" name="allow_inbattle"> Allow In-Battle
+                        <input type="checkbox" id="raid-allow-inbattle" name="allow_inbattle"> Zezwól w walce
                     </label>
-                    <button type="submit" class="btn btn-primary">Apply Changes</button>
+                    <button type="submit" class="btn btn-primary" aria-label="Zastosuj zmiany w ekspedycji">Zastosuj Zmiany</button>
                 </div>
             </form>
             <div id="raid-result"></div>
         </div>
 
         <!-- Backup Tab -->
-        <div id="backup" class="tab-content">
-            <h2>💾 Backup & Restore</h2>
+        <div id="backup" class="tab-content" id="backup-panel" role="tabpanel">
+            <h2>💾 Kopia Zapasowa i Przywracanie</h2>
             <div class="backup-actions">
-                <button id="btn-create-backup" class="btn btn-primary">Create Backup</button>
-                <button id="btn-refresh-backups" class="btn btn-secondary">Refresh List</button>
+                <button id="btn-create-backup" class="btn btn-primary" aria-label="Utwórz nową kopię zapasową">Utwórz Kopię</button>
+                <button id="btn-refresh-backups" class="btn btn-secondary" aria-label="Odśwież listę kopii">Odśwież Listę</button>
             </div>
-            <div id="backups-content" class="loading">Loading...</div>
+            <div id="backups-content" class="loading">Wczytywanie...</div>
             
-            <h3>Presets</h3>
-            <div id="presets-content" class="loading">Loading...</div>
+            <h3>Presety</h3>
+            <div id="presets-content" class="loading">Wczytywanie...</div>
         </div>
     </div>
 
     <footer>
-        <p>Bizon Dark Editor v1.0 | <a href="https://github.com" target="_blank">GitHub</a></p>
+        <p>Bizon Dark Editor v1.0 | <a href="https://github.com/f1cu/bizon-dark-editor" target="_blank">GitHub</a></p>
     </footer>
 
     <script src="/static/app.js"></script>
