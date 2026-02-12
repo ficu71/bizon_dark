@@ -8,6 +8,39 @@ const API_BASE = '';
 // Current profile
 let currentProfile = null;
 
+// Translation map
+const TR = {
+    'gold': 'Złoto',
+    'bust': 'Popiersia',
+    'portrait': 'Portrety',
+    'deed': 'Akty Nadania',
+    'crest': 'Herby',
+    'inraid': 'W Ekspedycji',
+    'inbattle': 'W Walce',
+    'teleported': 'Przeteleportowany',
+    'dd_options_altered': 'Zmienione Opcje DD'
+};
+
+function t(key) {
+    return TR[key.toLowerCase()] || key.charAt(0).toUpperCase() + key.slice(1);
+}
+
+/**
+ * Helper to manage button loading states
+ */
+function setButtonLoading(button, isLoading, text = 'Przetwarzanie...') {
+    if (isLoading) {
+        button.dataset.originalText = button.innerHTML;
+        button.innerHTML = `<span class="spinner"></span> ${text}`;
+        button.disabled = true;
+        button.classList.add('btn-loading');
+    } else {
+        button.innerHTML = button.dataset.originalText || button.innerHTML;
+        button.disabled = false;
+        button.classList.remove('btn-loading');
+    }
+}
+
 // Tab switching
 document.addEventListener('DOMContentLoaded', () => {
     initTabs();
@@ -47,35 +80,35 @@ async function loadDashboard() {
         const data = await response.json();
         
         if (!response.ok) {
-            container.innerHTML = `<div class="error">Error: ${data.detail || 'Unknown error'}</div>`;
+            container.innerHTML = `<div class="error">Błąd: ${data.detail || 'Nieznany błąd'}</div>`;
             return;
         }
         
         let html = `
             <div class="card">
-                <h3>Profile: ${data.profile}</h3>
+                <h3>Profil: ${data.profile}</h3>
                 <div class="data-grid">
                     <div class="data-item">
-                        <label>Wallet Items:</label>
+                        <label>Przedmioty w Trzosie:</label>
                         <value>${Object.keys(data.wallet).length}</value>
                     </div>
                     <div class="data-item">
-                        <label>Heroes:</label>
+                        <label>Bohaterowie:</label>
                         <value>${data.heroes?.length || 0}</value>
                     </div>
                     <div class="data-item">
-                        <label>In Raid:</label>
-                        <value>${data.game?.inraid === 1 ? 'Yes' : 'No'}</value>
+                        <label>W Ekspedycji:</label>
+                        <value>${data.game?.inraid === 1 ? 'Tak' : 'Nie'}</value>
                     </div>
                     <div class="data-item">
-                        <label>In Battle:</label>
-                        <value>${data.raid?.inbattle === 1 ? 'Yes' : 'No'}</value>
+                        <label>W Walce:</label>
+                        <value>${data.raid?.inbattle === 1 ? 'Tak' : 'Nie'}</value>
                     </div>
                 </div>
             </div>
             
             <div class="card">
-                <h3>Files Status</h3>
+                <h3>Status Plików</h3>
         `;
         
         for (const [name, info] of Object.entries(data.files)) {
@@ -84,7 +117,7 @@ async function loadDashboard() {
             html += `
                 <div class="file-status ${status}">
                     <span class="icon">${icon}</span>
-                    <span>${name}: ${info.exists ? 'OK' : 'Missing'}</span>
+                    <span>${name}: ${info.exists ? 'OK' : 'Brak'}</span>
                 </div>
             `;
         }
@@ -121,7 +154,7 @@ async function loadWallet() {
         for (const [key, value] of Object.entries(data)) {
             html += `
                 <div class="data-item">
-                    <label>${key.charAt(0).toUpperCase() + key.slice(1)}:</label>
+                    <label>${t(key)}:</label>
                     <value>${value.toLocaleString()}</value>
                 </div>
             `;
@@ -143,7 +176,7 @@ async function loadWallet() {
 
 async function loadHeroes() {
     const container = document.getElementById('heroes-content');
-    container.innerHTML = '<div class="loading">Loading heroes...</div>';
+    container.innerHTML = '<div class="loading">Wczytywanie bohaterów...</div>';
     
     try {
         const response = await fetch(`${API_BASE}/api/heroes`);
@@ -159,41 +192,41 @@ async function loadHeroes() {
             html += `
                 <div class="hero-card">
                     <div class="hero-header">
-                        <span class="hero-name">${hero.name || 'Unknown'}</span>
-                        <span class="hero-class">${hero.class || 'Unknown'}</span>
+                        <span class="hero-name">${hero.name || 'Nieznany'}</span>
+                        <span class="hero-class">${hero.class || 'Nieznany'}</span>
                     </div>
                     <div class="hero-stats">
                         <div class="hero-stat">
-                            <span>Resolve XP:</span>
+                            <span>Doświadczenie:</span>
                             <span>${hero.resolve_xp || 0}</span>
                         </div>
                         <div class="hero-stat">
-                            <span>Weapon Rank:</span>
+                            <span>Poziom broni:</span>
                             <span>${hero.weapon_rank || 0}</span>
                         </div>
                         <div class="hero-stat">
-                            <span>Armour Rank:</span>
+                            <span>Poziom pancerza:</span>
                             <span>${hero.armour_rank || 0}</span>
                         </div>
                     </div>
                     <form class="hero-form" data-hero-index="${hero.hero_index}">
                         <div class="form-row">
-                            <label for="hero-${hero.hero_index}-xp">Resolve XP:</label>
+                            <label for="hero-${hero.hero_index}-xp">Doświadczenie:</label>
                             <input type="number" id="hero-${hero.hero_index}-xp" name="resolve_xp" min="0" max="999999" value="${hero.resolve_xp || 0}">
                         </div>
                         <div class="form-row">
-                            <label for="hero-${hero.hero_index}-weapon">Weapon Rank:</label>
+                            <label for="hero-${hero.hero_index}-weapon">Poziom broni:</label>
                             <input type="number" id="hero-${hero.hero_index}-weapon" name="weapon_rank" min="0" max="5" value="${hero.weapon_rank || 0}">
                         </div>
                         <div class="form-row">
-                            <label for="hero-${hero.hero_index}-armour">Armour Rank:</label>
+                            <label for="hero-${hero.hero_index}-armour">Poziom pancerza:</label>
                             <input type="number" id="hero-${hero.hero_index}-armour" name="armour_rank" min="0" max="5" value="${hero.armour_rank || 0}">
                         </div>
                         <div class="form-actions">
                             <label class="checkbox">
-                                <input type="checkbox" id="hero-${hero.hero_index}-dry-run" name="dry_run" checked> Dry Run
+                                <input type="checkbox" id="hero-${hero.hero_index}-dry-run" name="dry_run" checked> Symulacja
                             </label>
-                            <button type="submit" class="btn btn-primary">Update Hero</button>
+                            <button type="submit" class="btn btn-primary">Aktualizuj Bohatera</button>
                         </div>
                         <div class="hero-result-container" id="hero-result-${hero.hero_index}"></div>
                     </form>
@@ -207,6 +240,9 @@ async function loadHeroes() {
         document.querySelectorAll('.hero-form').forEach(form => {
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
+                const btn = e.target.querySelector('button[type="submit"]');
+                setButtonLoading(btn, true);
+
                 const heroIndex = form.dataset.heroIndex;
                 const formData = new FormData(form);
                 
@@ -237,6 +273,8 @@ async function loadHeroes() {
                     }
                 } catch (error) {
                     showError(`hero-result-${heroIndex}`, error.message);
+                } finally {
+                    setButtonLoading(btn, false);
                 }
             });
         });
@@ -248,7 +286,7 @@ async function loadHeroes() {
 
 async function loadUpgrades() {
     const container = document.getElementById('upgrades-content');
-    container.innerHTML = '<div class="loading">Loading upgrades...</div>';
+    container.innerHTML = '<div class="loading">Wczytywanie ulepszeń...</div>';
     
     try {
         const response = await fetch(`${API_BASE}/api/upgrades`);
@@ -261,18 +299,18 @@ async function loadUpgrades() {
         
         let html = `
             <div class="card">
-                <h3>Summary</h3>
+                <h3>Podsumowanie</h3>
                 <div class="data-grid">
                     <div class="data-item">
-                        <label>Purchases:</label>
+                        <label>Zakupy:</label>
                         <value>${data.purchases_count || 0}</value>
                     </div>
                     <div class="data-item">
-                        <label>Purchased:</label>
+                        <label>Zakupione:</label>
                         <value>${data.purchased_count || 0}</value>
                     </div>
                     <div class="data-item">
-                        <label>Discounts:</label>
+                        <label>Zniżki:</label>
                         <value>${data.discounts_count || 0}</value>
                     </div>
                 </div>
@@ -280,12 +318,12 @@ async function loadUpgrades() {
         `;
         
         if (data.classes) {
-            html += '<div class="card"><h3>Classes</h3>';
+            html += '<div class="card"><h3>Klasy</h3>';
             for (const [cls, count] of Object.entries(data.classes)) {
                 html += `
                     <div class="file-status exists">
                         <span class="icon">⚔️</span>
-                        <span>${cls}: ${count} purchases</span>
+                        <span>${cls}: ${count} zakupów</span>
                     </div>
                 `;
             }
@@ -315,8 +353,8 @@ async function loadGame() {
         for (const [key, value] of Object.entries(data)) {
             html += `
                 <div class="data-item">
-                    <label>${key.replace(/_/g, ' ').toUpperCase()}:</label>
-                    <value>${value}</value>
+                    <label>${t(key)}:</label>
+                    <value>${value === 1 ? 'Tak' : (value === 0 ? 'Nie' : value)}</value>
                 </div>
             `;
         }
@@ -344,8 +382,8 @@ async function loadRaid() {
         for (const [key, value] of Object.entries(data)) {
             html += `
                 <div class="data-item">
-                    <label>${key.replace(/_/g, ' ').toUpperCase()}:</label>
-                    <value>${value}</value>
+                    <label>${t(key)}:</label>
+                    <value>${value === 1 ? 'Tak' : (value === 0 ? 'Nie' : value)}</value>
                 </div>
             `;
         }
@@ -361,8 +399,8 @@ async function loadBackups() {
     const backupsContainer = document.getElementById('backups-content');
     const presetsContainer = document.getElementById('presets-content');
     
-    backupsContainer.innerHTML = '<div class="loading">Loading backups...</div>';
-    presetsContainer.innerHTML = '<div class="loading">Loading presets...</div>';
+    backupsContainer.innerHTML = '<div class="loading">Wczytywanie kopii...</div>';
+    presetsContainer.innerHTML = '<div class="loading">Wczytywanie presetów...</div>';
     
     try {
         // Load backups
@@ -376,14 +414,14 @@ async function loadBackups() {
                     <div class="backup-item">
                         <span class="backup-path">${backup}</span>
                         <div class="backup-actions-inline">
-                            <button class="btn btn-danger btn-sm" onclick="restoreBackup('${backup}')">Restore</button>
+                            <button class="btn btn-danger btn-sm" onclick="restoreBackup('${backup}', this)">Przywróć</button>
                         </div>
                     </div>
                 `;
             });
             backupsContainer.innerHTML = html;
         } else {
-            backupsContainer.innerHTML = '<div class="warning">No backups found</div>';
+            backupsContainer.innerHTML = '<div class="warning">Nie znaleziono żadnych kopii</div>';
         }
         
         // Load presets
@@ -413,6 +451,8 @@ function initForms() {
     // Wallet form
     document.getElementById('wallet-form')?.addEventListener('submit', async (e) => {
         e.preventDefault();
+        const btn = e.target.querySelector('button[type="submit"]');
+        setButtonLoading(btn, true);
         const formData = new FormData(e.target);
         
         const params = new URLSearchParams();
@@ -442,12 +482,16 @@ function initForms() {
             }
         } catch (error) {
             showError('wallet-result', error.message);
+        } finally {
+            setButtonLoading(btn, false);
         }
     });
     
     // Game form
     document.getElementById('game-form')?.addEventListener('submit', async (e) => {
         e.preventDefault();
+        const btn = e.target.querySelector('button[type="submit"]');
+        setButtonLoading(btn, true);
         const formData = new FormData(e.target);
         
         const params = new URLSearchParams();
@@ -477,12 +521,16 @@ function initForms() {
             }
         } catch (error) {
             showError('game-result', error.message);
+        } finally {
+            setButtonLoading(btn, false);
         }
     });
     
     // Raid form
     document.getElementById('raid-form')?.addEventListener('submit', async (e) => {
         e.preventDefault();
+        const btn = e.target.querySelector('button[type="submit"]');
+        setButtonLoading(btn, true);
         const formData = new FormData(e.target);
         
         const params = new URLSearchParams();
@@ -512,34 +560,42 @@ function initForms() {
             }
         } catch (error) {
             showError('raid-result', error.message);
+        } finally {
+            setButtonLoading(btn, false);
         }
     });
     
     // Backup buttons
-    document.getElementById('btn-create-backup')?.addEventListener('click', async () => {
+    document.getElementById('btn-create-backup')?.addEventListener('click', async (e) => {
+        const btn = e.target;
+        setButtonLoading(btn, true, 'Tworzenie...');
         try {
             const response = await fetch(`${API_BASE}/api/backups`, { method: 'POST' });
             const result = await response.json();
             
             if (response.ok) {
-                alert(`Backup created: ${result.created}`);
+                alert(`Kopia utworzona: ${result.created}`);
                 loadBackups();
             } else {
-                alert(`Error: ${result.detail}`);
+                alert(`Błąd: ${result.detail}`);
             }
         } catch (error) {
-            alert(`Error: ${error.message}`);
+            alert(`Błąd: ${error.message}`);
+        } finally {
+            setButtonLoading(btn, false);
         }
     });
     
     document.getElementById('btn-refresh-backups')?.addEventListener('click', loadBackups);
 }
 
-async function restoreBackup(backupPath) {
-    if (!confirm('Are you sure you want to restore this backup? Current state will be saved as safety backup.')) {
+async function restoreBackup(backupPath, btn) {
+    if (!confirm('Czy na pewno chcesz przywrócić tę kopię? Obecny stan zostanie zapisany jako kopia bezpieczeństwa.')) {
         return;
     }
     
+    if (btn) setButtonLoading(btn, true, 'Przywracanie...');
+
     try {
         const response = await fetch(`${API_BASE}/api/restore`, {
             method: 'POST',
@@ -550,19 +606,21 @@ async function restoreBackup(backupPath) {
         const result = await response.json();
         
         if (response.ok) {
-            alert(`Restored successfully! Safety backup: ${result.safety_backup || 'none'}`);
+            alert(`Przywrócono pomyślnie! Kopia bezpieczeństwa: ${result.safety_backup || 'brak'}`);
             loadDashboard();
             loadAllData();
         } else {
-            alert(`Error: ${result.detail}`);
+            alert(`Błąd: ${result.detail}`);
         }
     } catch (error) {
-        alert(`Error: ${error.message}`);
+        alert(`Błąd: ${error.message}`);
+    } finally {
+        if (btn) setButtonLoading(btn, false);
     }
 }
 
 async function applyPreset(name) {
-    const dryRun = confirm('Apply preset with dry run first?\n\nOK = Dry Run\nCancel = Apply immediately');
+    const dryRun = confirm('Zastosować preset w trybie symulacji (Dry Run)?\n\nOK = Symulacja\nAnuluj = Zastosuj natychmiast');
     
     try {
         const response = await fetch(`${API_BASE}/api/presets/apply`, {
@@ -570,35 +628,35 @@ async function applyPreset(name) {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: new URLSearchParams({
                 name: name,
-                dry_run: !dryRun
+                dry_run: dryRun // Fixed: confirm returns true for OK (Dry Run)
             })
         });
         
         const result = await response.json();
         
         if (response.ok) {
-            const mode = dryRun ? 'Dry run completed' : 'Applied';
-            alert(`${mode}!\nOperations: ${result.operations.length}\n\nNotes:\n${result.notes.join('\n')}`);
+            const mode = dryRun ? 'Symulacja zakończona' : 'Zastosowano';
+            alert(`${mode}!\nLiczba operacji: ${result.operations.length}\n\nNotatki:\n${result.notes.join('\n')}`);
             
             if (!dryRun) {
                 loadDashboard();
                 loadAllData();
             }
         } else {
-            alert(`Error: ${result.detail}`);
+            alert(`Błąd: ${result.detail}`);
         }
     } catch (error) {
-        alert(`Error: ${error.message}`);
+        alert(`Błąd: ${error.message}`);
     }
 }
 
 function showResult(containerId, result, dryRun) {
     const container = document.getElementById(containerId);
-    const mode = dryRun ? 'DRY RUN' : 'APPLIED';
+    const mode = dryRun ? 'SYMULACJA (DRY RUN)' : 'ZASTOSOWANO';
     
     let html = `<div class="${dryRun ? 'warning' : 'success'}">`;
     html += `<strong>${mode}</strong><br>`;
-    html += `Operations: ${result.operations.length}<br>`;
+    html += `Operacje: ${result.operations.length}<br>`;
     
     if (result.operations.length > 0) {
         html += '<ul>';
@@ -614,5 +672,5 @@ function showResult(containerId, result, dryRun) {
 
 function showError(containerId, message) {
     const container = document.getElementById(containerId);
-    container.innerHTML = `<div class="error"><strong>Error:</strong> ${message}</div>`;
+    container.innerHTML = `<div class="error"><strong>Błąd:</strong> ${message}</div>`;
 }

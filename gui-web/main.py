@@ -41,8 +41,8 @@ app.mount("/static", StaticFiles(directory="gui-web/static"), name="static")
 # Templates
 templates = Jinja2Templates(directory="gui-web/templates")
 
-# Default profile path (macOS)
-DEFAULT_PROFILE = Path.home() / "Library" / "Application Support" / "Darkest" / "profile_1"
+# Default profile path
+DEFAULT_PROFILE = Path(__file__).resolve().parents[1] / "profile_1"
 BACKUP_DIR = Path("backups")
 
 
