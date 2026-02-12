@@ -178,23 +178,24 @@ async function loadHeroes() {
                     </div>
                     <form class="hero-form" data-hero-index="${hero.hero_index}">
                         <div class="form-row">
-                            <label>Resolve XP:</label>
-                            <input type="number" name="resolve_xp" min="0" max="999999" value="${hero.resolve_xp || 0}">
+                            <label for="hero-${hero.hero_index}-xp">Resolve XP:</label>
+                            <input type="number" id="hero-${hero.hero_index}-xp" name="resolve_xp" min="0" max="999999" value="${hero.resolve_xp || 0}">
                         </div>
                         <div class="form-row">
-                            <label>Weapon Rank:</label>
-                            <input type="number" name="weapon_rank" min="0" max="5" value="${hero.weapon_rank || 0}">
+                            <label for="hero-${hero.hero_index}-weapon">Weapon Rank:</label>
+                            <input type="number" id="hero-${hero.hero_index}-weapon" name="weapon_rank" min="0" max="5" value="${hero.weapon_rank || 0}">
                         </div>
                         <div class="form-row">
-                            <label>Armour Rank:</label>
-                            <input type="number" name="armour_rank" min="0" max="5" value="${hero.armour_rank || 0}">
+                            <label for="hero-${hero.hero_index}-armour">Armour Rank:</label>
+                            <input type="number" id="hero-${hero.hero_index}-armour" name="armour_rank" min="0" max="5" value="${hero.armour_rank || 0}">
                         </div>
                         <div class="form-actions">
                             <label class="checkbox">
-                                <input type="checkbox" name="dry_run" checked> Dry Run
+                                <input type="checkbox" id="hero-${hero.hero_index}-dry-run" name="dry_run" checked> Dry Run
                             </label>
                             <button type="submit" class="btn btn-primary">Update Hero</button>
                         </div>
+                        <div class="hero-result-container" id="hero-result-${hero.hero_index}"></div>
                     </form>
                 </div>
             `;
@@ -229,13 +230,13 @@ async function loadHeroes() {
                     const result = await response.json();
                     
                     if (response.ok) {
-                        showResult('heroes-content', result, dryRun);
-                        if (!dryRun) loadHeroes();
+                        showResult(`hero-result-${heroIndex}`, result, dryRun);
+                        if (!dryRun) setTimeout(() => loadHeroes(), 2000);
                     } else {
-                        showError('heroes-content', result.detail);
+                        showError(`hero-result-${heroIndex}`, result.detail);
                     }
                 } catch (error) {
-                    showError('heroes-content', error.message);
+                    showError(`hero-result-${heroIndex}`, error.message);
                 }
             });
         });
