@@ -1,0 +1,13 @@
+{
+  "fixtures": [
+    {
+      "fixture_id": "fresh_campaign_001",
+      "game_build": "unknown",
+      "dlc_enabled": ["musketeer"],
+      "campaign_stage": "fresh",
+      "active_raid": false,
+      "notable_states": ["gold=0", "week=1"],
+      "path": "tests/fixtures/raw/fresh_campaign_001/profile_1"
+    }
+  ]
+}

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bizon Dark Editor</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎮 Bizon Dark Editor</h1>
+            <p class="subtitle">Darkest Dungeon Save Editor</p>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+            <button class="tab-btn" data-tab="wallet">💰 Wallet</button>
+            <button class="tab-btn" data-tab="heroes">⚔️ Heroes</button>
+            <button class="tab-btn" data-tab="upgrades">🏗️ Upgrades</button>
+            <button class="tab-btn" data-tab="game">🎲 Game</button>
+            <button class="tab-btn" data-tab="raid">🏰 Raid</button>
+            <button class="tab-btn" data-tab="backup">💾 Backup</button>
+        </nav>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <h2>Dashboard</h2>
+            <div id="profile-status" class="loading">Loading...</div>
+        </div>
+
+        <!-- Wallet Tab -->
+        <div id="wallet" class="tab-content">
+            <h2>💰 Wallet</h2>
+            <div id="wallet-content" class="loading">Loading...</div>
+            <form id="wallet-form" class="edit-form">
+                <h3>Edit Wallet</h3>
+                <div class="form-row">
+                    <label>Gold:</label>
+                    <input type="number" name="gold" min="0" max="999999">
+                </div>
+                <div class="form-row">
+                    <label>Bust:</label>
+                    <input type="number" name="bust" min="0" max="9999">
+                </div>
+                <div class="form-row">
+                    <label>Portrait:</label>
+                    <input type="number" name="portrait" min="0" max="9999">
+                </div>
+                <div class="form-row">
+                    <label>Deed:</label>
+                    <input type="number" name="deed" min="0" max="9999">
+                </div>
+                <div class="form-row">
+                    <label>Crest:</label>
+                    <input type="number" name="crest" min="0" max="9999">
+                </div>
+                <div class="form-actions">
+                    <label class="checkbox">
+                        <input type="checkbox" name="dry_run" checked> Dry Run
+                    </label>
+                    <button type="submit" class="btn btn-primary">Apply Changes</button>
+                </div>
+            </form>
+            <div id="wallet-result"></div>
+        </div>
+
+        <!-- Heroes Tab -->
+        <div id="heroes" class="tab-content">
+            <h2>⚔️ Heroes</h2>
+            <div id="heroes-content" class="loading">Loading...</div>
+        </div>
+
+        <!-- Upgrades Tab -->
+        <div id="upgrades" class="tab-content">
+            <h2>🏗️ Upgrades</h2>
+            <div id="upgrades-content" class="loading">Loading...</div>
+        </div>
+
+        <!-- Game Tab -->
+        <div id="game" class="tab-content">
+            <h2>🎲 Game State</h2>
+            <div id="game-content" class="loading">Loading...</div>
+            <form id="game-form" class="edit-form">
+                <h3>Edit Game Flags</h3>
+                <div class="form-row">
+                    <label>In Raid:</label>
+                    <select name="inraid">
+                        <option value="">-- No Change --</option>
+                        <option value="0">No (0)</option>
+                        <option value="1">Yes (1)</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label>DD Options Altered:</label>
+                    <select name="dd_options_altered">
+                        <option value="">-- No Change --</option>
+                        <option value="0">No (0)</option>
+                        <option value="1">Yes (1)</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <label class="checkbox">
+                        <input type="checkbox" name="dry_run" checked> Dry Run
+                    </label>
+                    <button type="submit" class="btn btn-primary">Apply Changes</button>
+                </div>
+            </form>
+            <div id="game-result"></div>
+        </div>
+
+        <!-- Raid Tab -->
+        <div id="raid" class="tab-content">
+            <h2>🏰 Raid State</h2>
+            <div id="raid-content" class="loading">Loading...</div>
+            <form id="raid-form" class="edit-form">
+                <h3>Edit Raid Flags</h3>
+                <div class="form-row">
+                    <label>Teleported:</label>
+                    <select name="teleported">
+                        <option value="">-- No Change --</option>
+                        <option value="0">No (0)</option>
+                        <option value="1">Yes (1)</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <label class="checkbox">
+                        <input type="checkbox" name="dry_run" checked> Dry Run
+                    </label>
+                    <label class="checkbox">
+                        <input type="checkbox" name="allow_inbattle"> Allow In-Battle
+                    </label>
+                    <button type="submit" class="btn btn-primary">Apply Changes</button>
+                </div>
+            </form>
+            <div id="raid-result"></div>
+        </div>
+
+        <!-- Backup Tab -->
+        <div id="backup" class="tab-content">
+            <h2>💾 Backup & Restore</h2>
+            <div class="backup-actions">
+                <button id="btn-create-backup" class="btn btn-primary">Create Backup</button>
+                <button id="btn-refresh-backups" class="btn btn-secondary">Refresh List</button>
+            </div>
+            <div id="backups-content" class="loading">Loading...</div>
+            
+            <h3>Presets</h3>
+            <div id="presets-content" class="loading">Loading...</div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Bizon Dark Editor v1.0 | <a href="https://github.com" target="_blank">GitHub</a></p>
+    </footer>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
